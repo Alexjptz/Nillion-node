@@ -34,8 +34,8 @@ echo -e "\n \e[33mПодпишись на мой канал\e[0m Beloglazov inve
 sleep 2
 
 while true; do
-    echo "1. Подготовка к установке Nillon (Preparation)"
-    echo "2. Установка Nillon (Install)"
+    echo "1. Подготовка к установке Nillion (Preparation)"
+    echo "2. Установка Nillion (Install)"
     echo "3. Получить данные Accuser (Get Accuser data)"
     echo "4. Запустить ноду (Start node)"
     echo "5. Удаление ноды (Delete node)"
@@ -113,7 +113,7 @@ while true; do
             echo ""
             ;;
         2)
-            echo -e "\e[33mУстанавливаем Nillon (Install Nillon)...\e[0m"
+            echo -e "\e[33mУстанавливаем Nillion (Install Nillion)...\e[0m"
 
             # Install Accuser Image
             echo -e "\e[33mСкачиваем Accuser Image (Pulling Accuser Image)...\e[0m"
@@ -173,7 +173,7 @@ while true; do
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1
-            if docker run --name nillon -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020; then
+            if docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020; then
                 sleep 1
                 echo -e "Запускаем ноду (Starting node): \e[32mУспешно (Success)\e[0m"
                 echo ""
@@ -186,7 +186,7 @@ while true; do
         5)
             #Deleting Node
             echo -e "\e[33mУдаляем ноду (Deleting node)...\e[0m"
-            if docker stop nillon && docker rm nillon accuser; then
+            if docker stop nillon && docker rm nillion accuser && rm -rvf ./nillion; then
                 sleep 1
                 echo -e "Нода удалена (Node Deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""

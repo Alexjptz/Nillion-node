@@ -192,7 +192,7 @@ while true; do
             #check logs
             echo -e "\e[33mПроверяем логи (Cheking logs)...\e[0m"
             sleep 1
-            docker logs -tail 50 nillion
+            docker logs --tail 50 nillion
             ;;
         7)
             # Stop script and exit

@@ -9,4 +9,4 @@ SPEC
 
 Commands:
 
-curl -O https://raw.githubusercontent.com/Alexjptz/Nillion-node/main/nillon_node_main.sh && chmod +x nillon_node_main.sh && ./nillon_node_main.sh
+curl -O https://raw.githubusercontent.com/Alexjptz/Nillion-node/main/nillion_node_main.sh && chmod +x nillion_node_main.sh && ./nillion_node_main.sh

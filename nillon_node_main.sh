@@ -37,7 +37,10 @@ while true; do
     echo "1. Подготовка к установке Nillon (Preparation)"
     echo "2. Установка Nillon (Install)"
     echo "3. Получить данные Accuser (Get Accuser data)"
-    echo "4. Выход (Exit)"
+    echo "4. Запустить ноду (Start node)"
+    echo "5. Удаление ноды (Delete node)"
+    echo "6. Проверить логи (Check logs)"
+    echo "7. Выход (Exit)"
     echo ""
     read -p "Выберите опцию (Select option): " option
 
@@ -167,6 +170,39 @@ while true; do
             echo ""
             ;;
         4)
+            #Starting Node
+            echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
+            sleep 1
+            if docker run --name nillon -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020; then
+                sleep 1
+                echo -e "Запускаем ноду (Starting node): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Запускаем ноду (Starting node): \e[31mОшибка (Error)\e[0m"
+                echo ""
+                exit 1
+            fi
+            ;;
+        5)
+            #Deleting Node
+            echo -e "\e[33mУдаляем ноду (Deleting node)...\e[0m"
+            if docker stop nillon && docker rm nillon accuser; then
+                sleep 1
+                echo -e "Нода удалена (Node Deleted): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Нода удалена (Node Deleted): \e[31mОшибка (Error)\e[0m"
+                echo ""
+                exit 1
+            fi
+            ;;
+        6)
+            #check logs
+            echo -e "\e[33mПроверяем логи (Cheking logs)...\e[0m"
+            sleep 1
+            docker logs -f nillon
+            ;;
+        7)
             # Stop script and exit
             echo -e "\e[31mСкрипт остановлен (Script stopped)\e[0m"
             echo ""

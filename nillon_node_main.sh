@@ -38,6 +38,8 @@ while true; do
     echo "2. Установка Nillon (Install)"
     echo "3. Получить данные Accuser (Get Accuser data)"
     echo "4. Выход (Exit)"
+    echo ""
+    read -p "Выберите опцию (Select option): " option
 
     case $option in
         1)

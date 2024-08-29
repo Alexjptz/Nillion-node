@@ -173,14 +173,7 @@ while true; do
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1
-            if docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020; then
-                exit 0
-                echo -e "Нода запущена (Node Started): \e[32mУспешно (Success)\e[0m"
-            else
-                echo -e "Данные Accuser (Accuser data): \e[31mОшибка (Error)\e[0m"
-                echo ""
-                exit 1
-            fi
+            docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020
             ;;
         5)
             #Deleting Node

@@ -178,7 +178,7 @@ while true; do
         5)
             #Deleting Node
             echo -e "\e[33mУдаляем ноду (Deleting node)...\e[0m"
-            if docker stop nillon && docker rm nillion accuser && rm -rvf ./nillion; then
+            if docker stop nillion && docker rm nillion accuser && rm -rvf ./nillion; then
                 sleep 1
                 echo -e "Нода удалена (Node Deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""
@@ -192,7 +192,7 @@ while true; do
             #check logs
             echo -e "\e[33mПроверяем логи (Cheking logs)...\e[0m"
             sleep 1
-            docker logs --tail 50 nillion
+            docker logs --tail 14 nillion
             ;;
         7)
             # Stop script and exit

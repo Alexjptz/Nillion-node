@@ -43,10 +43,10 @@ while true; do
 
     case $option in
         1)
-            echo "\e[33mНачинаем подготовку (Starting preparation)...\e[0m"
+            echo -e "\e[33mНачинаем подготовку (Starting preparation)...\e[0m"
             sleep 1
             # Update packages
-            echo "\e[33mОбновляем пакеты (Updating packages)...\e[0m"
+            echo -e "\e[33mОбновляем пакеты (Updating packages)...\e[0m"
             if sudo apt update && sudo apt upgrade -y; then
                 sleep 1
                 echo -e "Обновление пакетов (Updating packages): \e[32mУспешно (Success)\e[0m"
@@ -58,14 +58,14 @@ while true; do
             fi
 
             # Check Docker version
-            echo "\e[33Проверяем версию Docker (Checking Docker version)...\e[0m"
+            echo -e "\e[33mПроверяем версию Docker (Checking Docker version)...\e[0m"
             if command -v docker &> /dev/null; then
                 DOCKER_VERSION=$(docker --version | grep -oP '\d+\.\d+\.\d+')
                 REQUIRED_VERSION="27.2.0"
 
                 if [ "$(printf '%s\n' "$REQUIRED_VERSION" "$DOCKER_VERSION" | sort -V | head -n1)" = "$REQUIRED_VERSION" ]; then
                     echo -e "Проверка версии Docker (Docker version check): \e[32mУспешно (Success)\e[0m"
-                    echo "(\e[32mDocker version $DOCKER_VERSION is OK\e[0m)"
+                    echo -e "(\e[32mDocker version $DOCKER_VERSION is OK\e[0m)"
                     echo ""
                 else
                     echo -e "Проверка версии Docker (Docker version check): \e[33mТребуется обновить (Update Require)\e[0m"
@@ -73,7 +73,7 @@ while true; do
                     sleep 1
 
                     # Install or update Docker
-                    echo "\e[33mОбновляем Docker (Updating Docker)...\e[0m"
+                    echo -e "\e[33mОбновляем Docker (Updating Docker)...\e[0m"
                     sleep 1
                     if sudo apt install apt-transport-https ca-certificates curl software-properties-common -y &&
                     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
@@ -110,10 +110,10 @@ while true; do
             echo ""
             ;;
         2)
-            echo "\e[33mУстанавливаем Nillon (Install Nillon)...\e[0m"
+            echo -e "\e[33mУстанавливаем Nillon (Install Nillon)...\e[0m"
 
             # Install Accuser Image
-            echo "\e[33mСкачиваем Accuser Image (Pulling Accuser Image)...\e[0m"
+            echo -e "\e[33mСкачиваем Accuser Image (Pulling Accuser Image)...\e[0m"
             if docker pull nillion/retailtoken-accuser:v1.0.0; then
                 sleep 1
                 echo -e "Скачивание Accuser Image (Pulling Accuser Image): \e[32mУспешно (Success)\e[0m"
@@ -125,7 +125,7 @@ while true; do
             fi
 
             # Create Accuser directory
-            echo "\e[33mСоздаем директорию для Accuser (Creating directory for Accuser)...\e[0m"
+            echo -e "\e[33mСоздаем директорию для Accuser (Creating directory for Accuser)...\e[0m"
             if mkdir -p nillion/accuser; then
                 sleep 1
                 echo -e "Создание директории (Directory creation): \e[32mУспешно (Success)\e[0m"
@@ -137,7 +137,7 @@ while true; do
             fi
 
             # Starting the container for Accuser initialization and registration.
-            echo "\e[33Запускаем контейнер для Accuser (Starting Accuser container)...\e[0m"
+            echo -e "\e[33mЗапускаем контейнер для Accuser (Starting Accuser container)...\e[0m"
             if docker run --name accuser -v "$(pwd)/nillion/accuser:/var/tmp" nillion/retailtoken-accuser:v1.0.0 initialise; then
                 sleep 1
                 echo -e "Запуск контейнера Accuser (Starting Accuser container): \e[32mУспешно (Success)\e[0m"
@@ -150,7 +150,7 @@ while true; do
             ;;
         3)
             #check Accuser Verifier data
-            echo "\e[33Получаем данные Accuser (Getting Accuser data)...\e[0m"
+            echo -e "\e[33mПолучаем данные Accuser (Getting Accuser data)...\e[0m"
             sleep 1
             if sudo cat /root/nillion/accuser/credentials.json; then
                 sleep 1
@@ -161,7 +161,7 @@ while true; do
                 echo ""
                 exit 1
             fi
-            echo -e "\e[33При первой регистрации перейдите на сайт \nhttps://verifier.nillion.com/verifier \nи введите данные в 5 пункте\e[0m"
+            echo -e "\e[33mПри первой регистрации перейдите на сайт \nhttps://verifier.nillion.com/verifier \nи введите данные в 5 пункте\e[0m"
             echo ""
             echo -e "\e[33mFor the first registration, go to the website \nhttps://verifier.nillion.com/verifier \nand enter the data in point 5.\e[0m"
             echo ""

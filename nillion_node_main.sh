@@ -201,7 +201,13 @@ while true; do
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1
-            docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start 5114020
+            echo "Зайдите на сайт и введите высоту блока из пункта 7"
+            echo "Go to the website and enter the block height from point 7"
+            echo "https://verifier.nillion.com/verifier"
+            echo ""
+            echo -n "Высота блока (Block height): "
+            read block_height
+            docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_height
             ;;
         5)
             #Deleting Node

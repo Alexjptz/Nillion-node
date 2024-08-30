@@ -236,8 +236,7 @@ while true; do
                     local input_variable
 
                     while true; do
-                        echo "$prompt_message"
-                        read input_variable
+                        read -p "$prompt_message" input_variable
                         if [ -z "$input_variable" ]; then
                             echo -e "\e[31mОшибка: значение не может быть пустым. Пожалуйста, введите значение.\e[0m"
                             echo -e "\e[31mError: the value cannot be empty. Please enter a value.\e[0m"

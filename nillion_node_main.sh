@@ -40,7 +40,8 @@ while true; do
     echo "4. Запустить или перезапустить ноду (Start or restart node)"
     echo "5. Удаление ноды (Delete node)"
     echo "6. Проверить логи (Check logs)"
-    echo "7. Выход (Exit)"
+    echo "7. Восстановить ноду (Node restore)"
+    echo "8. Выход (Exit)"
     echo ""
     read -p "Выберите опцию (Select option): " option
 
@@ -222,6 +223,53 @@ while true; do
             docker logs --tail 14 nillion
             ;;
         7)
+            #Restore the node
+            FILE_PATH="nillion/accuser/credentials.json"
+
+            # Check if file exist
+            if [ -f "$FILE_PATH" ]; then
+                echo -e "\e[33mФайл $FILE_PATH найден.\e[0m"
+
+                # Check input data func
+                function prompt_for_input() {
+                    local prompt_message=$1
+                    local input_variable
+
+                    while true; do
+                        echo "$prompt_message"
+                        read input_variable
+                        if [ -z "$input_variable" ]; then
+                            echo -e "\e[31mОшибка: значение не может быть пустым. Пожалуйста, введите значение.\e[0m"
+                            echo -e "\e[31mError: the value cannot be empty. Please enter a value.\e[0m"
+                        else
+                            echo $input_variable
+                            break
+                        fi
+                    done
+                }
+
+                # Get data from user
+                priv_key=$(prompt_for_input "Введите приватный ключ (priv_key):")
+                pub_key=$(prompt_for_input "Введите публичный ключ (pub_key):")
+                address=$(prompt_for_input "Введите адрес (address):")
+
+                # Rewrite credentials
+                echo "{
+                \"priv_key\": \"$priv_key\",
+                \"pub_key\": \"$pub_key\",
+                \"address\": \"$address\"
+                }" > $FILE_PATH
+
+                echo -e "сredentials.json обновлен (updated): ."
+
+            else
+                echo -e "\e[33mФайл credentials.json не найден. Вернитесь к шагу 2\e[0m"
+                echo ""
+                echo -e "\e[33mFile credentials.json not found. Please return to step 2.\e[0m"
+                echo ""
+            fi
+            ;;
+        8)
             # Stop script and exit
             echo -e "\e[31mСкрипт остановлен (Script stopped)\e[0m"
             echo ""

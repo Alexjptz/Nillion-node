@@ -37,7 +37,7 @@ while true; do
     echo "1. Подготовка к установке Nillion (Preparation)"
     echo "2. Установка Nillion (Install)"
     echo "3. Получить данные Accuser (Get Accuser data)"
-    echo "4. Запустить ноду (Start node)"
+    echo "4. Запустить или перезапустить ноду (Start or restart node)"
     echo "5. Удаление ноды (Delete node)"
     echo "6. Проверить логи (Check logs)"
     echo "7. Выход (Exit)"
@@ -170,6 +170,33 @@ while true; do
             echo ""
             ;;
         4)
+            # Container is running, so stop it
+            if [ "$(docker ps -q -f name=nillion)" ]; then
+                echo -e "\e[33mОстанавливаем контейнер (Stopping container)...\e[0m"
+                if docker stop nillion; then
+                    sleep 1
+                    echo -e "Контейнер остановлен (Container stopped): \e[32mУспешно (Success)\e[0m"
+                    echo ""
+                    echo -e "\e[33mУдаляем контейнер (Removing container)...\e[0m"
+                    if docker rm nillion; then
+                        sleep 1
+                        echo -e "Контейнер удален (Container deleted): \e[32mУспешно (Success)\e[0m"
+                        echo ""
+                    else
+                        echo -e "Контейнер удален (Container deleted): \e[31mОшибка (Error)\e[0m"
+                        echo ""
+                        exit 1
+                    fi
+                else
+                    echo -e "Контейнер остановлен (Container stopped): \e[31mОшибка (Error)\e[0m"
+                    echo ""
+                    exit 1
+                fi
+            else
+                echo -e "\e[33mКонтейнер не найден (Container doesn't exist)\e[0m"
+                echo ""
+            fi
+
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1

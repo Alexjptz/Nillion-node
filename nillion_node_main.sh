@@ -228,30 +228,17 @@ while true; do
 
             # Check if file exist
             if [ -f "$FILE_PATH" ]; then
-                echo -e "\e[33mФайл $FILE_PATH найден.\e[0m"
-
-                # Check input data func
-                function prompt_for_input() {
-                    local prompt_message=$1
-                    local input_variable
-
-                    while true; do
-                        echo -n "$prompt_message"
-                        read input_variable
-                        if [ -z "$input_variable" ]; then
-                            echo -e "\e[31mОшибка: значение не может быть пустым. Пожалуйста, введите значение.\e[0m"
-                            echo -e "\e[31mError: the value cannot be empty. Please enter a value.\e[0m"
-                        else
-                            echo "$input_variable"
-                            break
-                        fi
-                    done
-                }
+                echo -e "\e[33mСredentials.json найден (Found).\e[0m"
 
                 # Get data from user
-                priv_key=$(prompt_for_input "Введите приватный ключ (priv_key):")
-                pub_key=$(prompt_for_input "Введите публичный ключ (pub_key):")
-                address=$(prompt_for_input "Введите адрес (address):")
+                echo -n "Введите приватный ключ (priv_key): "
+                read priv_key
+
+                echo -n "Введите публичный ключ (pub_key): "
+                read pub_key
+
+                echo -n "Введите адрес (address): "
+                read address
 
                 # Rewrite credentials
                 echo "{
@@ -260,7 +247,7 @@ while true; do
                 \"address\": \"$address\"
                 }" > $FILE_PATH
 
-                echo -e "сredentials.json обновлен (updated): ."
+                echo -e "сredentials.json обновлен (updated): \e[33mУспешно (Success)\e[0m  ."
 
             else
                 echo -e "\e[33mФайл credentials.json не найден. Вернитесь к шагу 2\e[0m"

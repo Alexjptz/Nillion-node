@@ -220,7 +220,7 @@ while true; do
                 echo -e "Контейнер Nillion удален (Nillion container deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""
             else
-                echo -e "Контейнер Nillion удален (Nillion container deleted): \e[31mОшибка (Error)\e[0m"
+                echo -e "\e[34mКонтейнер Nillion не найден (Didn't find Nillion)\e[0m"
                 echo ""
             fi
 
@@ -229,7 +229,7 @@ while true; do
                 echo -e "Контейнер Accuser удален (Accuser container deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""
             else
-                echo -e "Контейнер Accuser удален (Accuser container deleted): \e[31mОшибка (Error)\e[0m"
+                echo -e "\e[34mКонтейнер Accuser не найден (Didn't find Accuser)\e[0m"
                 echo ""
             fi
 

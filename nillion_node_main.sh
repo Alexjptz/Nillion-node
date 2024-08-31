@@ -212,15 +212,44 @@ while true; do
         5)
             #Deleting Node
             echo -e "\e[33mУдаляем ноду (Deleting node)...\e[0m"
-            if docker stop nillion && docker rm nillion accuser && rm -rvf ./nillion; then
+            if docker stop nillion; then
                 sleep 1
-                echo -e "Нода удалена (Node Deleted): \e[32mУспешно (Success)\e[0m"
+                echo -e "Нода остановлена (Node stopped): \e[32mУспешно (Success)\e[0m"
                 echo ""
             else
-                echo -e "Нода удалена (Node Deleted): \e[31mОшибка (Error)\e[0m"
                 echo ""
-                exit 1
+                echo -e "\e[34mНода не запущена (Node is not running)\e[0m"
+                echo ""
             fi
+
+            if docker rm nillion; then
+                sleep 1
+                echo -e "Контейнер Nillion удален (Nillion container deleted): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Контейнер Nillion удален (Nillion container deleted): \e[31mОшибка (Error)\e[0m"
+                echo ""
+            fi
+
+            if docker rm accuser; then
+                sleep 1
+                echo -e "Контейнер Accuser удален (Nillion container deleted): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Контейнер Accuser удален (Nillion container deleted): \e[31mОшибка (Error)\e[0m"
+                echo ""
+            fi
+
+            if rm ./nillion; then
+                sleep 1
+                echo -e "Директория nillion удалена (Node directory Deleted): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Директория nillion удалена (Node directory Deleted): \e[31mОшибка (Error)\e[0m"
+                echo ""
+            fi
+            echo -e "\e[33m----- НОДА УДАЛЕНА. NODE DELETED -----\e[0m"
+            echo ""
             ;;
         6)
             #check logs

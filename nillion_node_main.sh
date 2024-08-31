@@ -240,7 +240,7 @@ while true; do
                 echo ""
             fi
 
-            if rm ./nillion; then
+            if rm -rvf ./nillion; then
                 sleep 1
                 echo -e "Директория nillion удалена (Node directory Deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""

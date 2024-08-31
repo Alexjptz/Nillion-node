@@ -226,10 +226,10 @@ while true; do
 
             if docker rm accuser; then
                 sleep 1
-                echo -e "Контейнер Accuser удален (Nillion container deleted): \e[32mУспешно (Success)\e[0m"
+                echo -e "Контейнер Accuser удален (Accuser container deleted): \e[32mУспешно (Success)\e[0m"
                 echo ""
             else
-                echo -e "Контейнер Accuser удален (Nillion container deleted): \e[31mОшибка (Error)\e[0m"
+                echo -e "Контейнер Accuser удален (Accuser container deleted): \e[31mОшибка (Error)\e[0m"
                 echo ""
             fi
 

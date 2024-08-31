@@ -51,7 +51,7 @@ while true; do
             sleep 1
             # Update packages
             echo -e "\e[33mОбновляем пакеты (Updating packages)...\e[0m"
-            if sudo apt update && sudo apt upgrade -y; then
+            if sudo apt update && sudo apt upgrade -y && apt install jq; then
                 sleep 1
                 echo -e "Обновление пакетов (Updating packages): \e[32mУспешно (Success)\e[0m"
                 echo ""
@@ -135,9 +135,8 @@ while true; do
                 echo -e "Создание директории (Directory creation): \e[32mУспешно (Success)\e[0m"
                 echo ""
             else
-                echo -e "Создание директории (Directory creation): \e[31mОшибка (Error)\e[0m"
+                echo -e "Директория (Directory): \e[32mНайдена (Found)\e[0m"
                 echo ""
-                exit 1
             fi
 
             # Starting the container for Accuser initialization and registration.
@@ -201,13 +200,7 @@ while true; do
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1
-            echo "Зайдите на сайт и введите высоту блока из пункта 7"
-            echo "Go to the website and enter the block height from point 7"
-            echo "https://verifier.nillion.com/verifier"
-            echo ""
-            echo -n "Высота блока (Block height): "
-            read block_height
-            docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_height
+            sudo docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:latest accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com/" --block-start "$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')"
             ;;
         5)
             #Deleting Node
@@ -259,37 +252,48 @@ while true; do
             ;;
         7)
             #Restore the node
+            # Create Accuser directory
+            echo -e "\e[33mСоздаем директорию для Accuser (Creating directory for Accuser)...\e[0m"
+            if mkdir -p nillion/accuser; then
+                sleep 1
+                echo -e "Создание директории (Directory creation): \e[32mУспешно (Success)\e[0m"
+                echo ""
+            else
+                echo -e "Директория (Directory): \e[34mНайдена (Found)\e[0m"
+                echo ""
+            fi
+
             FILE_PATH="nillion/accuser/credentials.json"
 
             # Check if file exist
             if [ -f "$FILE_PATH" ]; then
                 echo -e "\e[33mСredentials.json найден (Found).\e[0m"
-
-                # Get data from user
-                echo -n "Введите приватный ключ (priv_key): "
-                read priv_key
-
-                echo -n "Введите публичный ключ (pub_key): "
-                read pub_key
-
-                echo -n "Введите адрес (address): "
-                read address
-
-                # Rewrite credentials
-                echo "{
-                \"priv_key\": \"$priv_key\",
-                \"pub_key\": \"$pub_key\",
-                \"address\": \"$address\"
-                }" > $FILE_PATH
-
-                echo -e "сredentials.json обновлен (updated): \e[33mУспешно (Success)\e[0m  ."
-
             else
-                echo -e "\e[33mФайл credentials.json не найден. Вернитесь к шагу 2\e[0m"
-                echo ""
-                echo -e "\e[33mFile credentials.json not found. Please return to step 2.\e[0m"
-                echo ""
+                sleep 1
+                touch ./nillion/accuser/credentials.json
+                cd $HOME
+                echo -e "\e[33mСredentials.json создан (Created).\e[0m"
             fi
+
+            # Get data from user
+            echo -n "Введите приватный ключ (priv_key): "
+            read priv_key
+
+            echo -n "Введите публичный ключ (pub_key): "
+            read pub_key
+
+            echo -n "Введите адрес (address): "
+            read address
+
+            # Rewrite credentials
+            echo "{
+            \"priv_key\": \"$priv_key\",
+            \"pub_key\": \"$pub_key\",
+            \"address\": \"$address\"
+            }" > $FILE_PATH
+
+            echo -e "сredentials.json обновлен (updated): \e[33mУспешно (Success)\e[0m  ."
+            echo ""
             ;;
         8)
             # Stop script and exit

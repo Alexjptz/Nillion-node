@@ -193,7 +193,7 @@ while true; do
                     exit 1
                 fi
             else
-                echo -e "\e[33mКонтейнер не найден (Container doesn't exist)\e[0m"
+                echo -e "\e[34mКонтейнер не найден (Container doesn't exist)\e[0m"
                 echo ""
             fi
 
@@ -292,7 +292,7 @@ while true; do
             \"address\": \"$address\"
             }" > $FILE_PATH
 
-            echo -e "сredentials.json обновлен (updated): \e[33mУспешно (Success)\e[0m  ."
+            echo -e "сredentials.json обновлен (updated): \e[32mУспешно (Success)\e[0m  ."
             echo ""
             ;;
         8)

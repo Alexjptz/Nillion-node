@@ -226,7 +226,7 @@ while true; do
             #check logs
             echo -e "\e[33mПроверяем логи (Cheking logs)...\e[0m"
             sleep 1
-            docker logs --tail 14 nillion
+            sudo docker logs --tail=1000 nillion | grep -A 2 Registered | tail -3
             ;;
         7)
             #Restore the node

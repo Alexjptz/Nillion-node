@@ -141,7 +141,7 @@ while true; do
 
             # Starting the container for Accuser initialization and registration.
             echo -e "\e[33mЗапускаем контейнер для Accuser (Starting Accuser container)...\e[0m"
-            if docker run --name accuser -v "$(pwd)/nillion/accuser:/var/tmp" nillion/retailtoken-accuser:v1.0.0 initialise; then
+            if docker run --name accuser -v "$(pwd)/nillion/accuser:/var/tmp" nillion/retailtoken-accuser:v1.0.1 initialise; then
                 sleep 1
                 echo -e "Запуск контейнера Accuser (Starting Accuser container): \e[32mУспешно (Success)\e[0m"
                 echo ""
@@ -195,7 +195,7 @@ while true; do
             #Starting Node
             echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
             sleep 1
-            sudo docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:latest accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com/" --block-start "$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')"
+            sudo docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com/" --block-start "$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')"
             ;;
         5)
             #Deleting Node

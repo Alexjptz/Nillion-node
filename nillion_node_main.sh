@@ -118,7 +118,7 @@ while true; do
 
             # Install Accuser Image
             echo -e "\e[33mСкачиваем Accuser Image (Pulling Accuser Image)...\e[0m"
-            if docker pull nillion/retailtoken-accuser:v1.0.0; then
+            if docker pull nillion/retailtoken-accuser:v1.0.1; then
                 sleep 1
                 echo -e "Скачивание Accuser Image (Pulling Accuser Image): \e[32mУспешно (Success)\e[0m"
                 echo ""

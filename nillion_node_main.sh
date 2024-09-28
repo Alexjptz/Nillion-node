@@ -2,32 +2,70 @@
 tput reset
 tput civis
 
+show_orange() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+show_blue() {
+    echo -e "\e[34m$1\e[0m"
+}
+
+show_green() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+show_red() {
+    echo -e "\e[31m$1\e[0m"
+}
+
+stop_node() {
+    show_orange "Останавливаем контейнер (Stopping container)..."
+    if docker stop nillion; then
+        sleep 1
+        show_green "Успешно (Success)"
+        echo ""
+    else
+        sleep 1
+        show_blue "Нода не запущена (Node is not running)"
+        echo ""
+    fi
+
+    show_orange "Удаляем контейнер (Deleting container)..."
+    if docker rm nillion; then
+        sleep 1
+        show_green "Успешно (Success)"
+        echo ""
+    else
+        sleep 1
+        show_blue "Контейнер Nillion не найден (Didn't find Nillion)"
+        echo ""
+    fi
+}
+
 # Put your logo here if nessesary
 
-echo -e "\e[33m"
-echo -e '----------_____--------------------_____----------------_____----------'
-echo -e '---------/\----\------------------/\----\--------------/\----\---------'
-echo -e '--------/::\____\----------------/::\----\------------/::\----\--------'
-echo -e '-------/:::/----/---------------/::::\----\-----------\:::\----\-------'
-echo -e '------/:::/----/---------------/::::::\----\-----------\:::\----\------'
-echo -e '-----/:::/----/---------------/:::/\:::\----\-----------\:::\----\-----'
-echo -e '----/:::/____/---------------/:::/__\:::\----\-----------\:::\----\----'
-echo -e '----|::|----|---------------/::::\---\:::\----\----------/::::\----\---'
-echo -e '----|::|----|-----_____----/::::::\---\:::\----\--------/::::::\----\--'
-echo -e '----|::|----|----/\----\--/:::/\:::\---\:::\----\------/:::/\:::\----\-'
-echo -e '----|::|----|---/::\____\/:::/--\:::\---\:::\____\----/:::/--\:::\____\'
-echo -e '----|::|----|--/:::/----/\::/----\:::\--/:::/----/---/:::/----\::/----/'
-echo -e '----|::|----|-/:::/----/--\/____/-\:::\/:::/----/---/:::/----/-\/____/-'
-echo -e '----|::|____|/:::/----/------------\::::::/----/---/:::/----/----------'
-echo -e '----|:::::::::::/----/--------------\::::/----/---/:::/----/-----------'
-echo -e '----\::::::::::/____/---------------/:::/----/----\::/----/------------'
-echo -e '-----~~~~~~~~~~--------------------/:::/----/------\/____/-------------'
-echo -e '----------------------------------/:::/----/---------------------------'
-echo -e '---------------------------------/:::/----/----------------------------'
-echo -e '---------------------------------\::/----/-----------------------------'
-echo -e '----------------------------------\/____/------------------------------'
-echo -e '-----------------------------------------------------------------------'
-echo -e '\e[0m'
+show_orange '----------_____--------------------_____----------------_____----------'
+show_orange '---------/\----\------------------/\----\--------------/\----\---------'
+show_orange '--------/::\____\----------------/::\----\------------/::\----\--------'
+show_orange '-------/:::/----/---------------/::::\----\-----------\:::\----\-------'
+show_orange '------/:::/----/---------------/::::::\----\-----------\:::\----\------'
+show_orange '-----/:::/----/---------------/:::/\:::\----\-----------\:::\----\-----'
+show_orange '----/:::/____/---------------/:::/__\:::\----\-----------\:::\----\----'
+show_orange '----|::|----|---------------/::::\---\:::\----\----------/::::\----\---'
+show_orange '----|::|----|-----_____----/::::::\---\:::\----\--------/::::::\----\--'
+show_orange '----|::|----|----/\----\--/:::/\:::\---\:::\----\------/:::/\:::\----\-'
+show_orange '----|::|----|---/::\____\/:::/--\:::\---\:::\____\----/:::/--\:::\____\ '
+show_orange '----|::|----|--/:::/----/\::/----\:::\--/:::/----/---/:::/----\::/----/'
+show_orange '----|::|----|-/:::/----/--\/____/-\:::\/:::/----/---/:::/----/-\/____/-'
+show_orange '----|::|____|/:::/----/------------\::::::/----/---/:::/----/----------'
+show_orange '----|:::::::::::/----/--------------\::::/----/---/:::/----/-----------'
+show_orange '----\::::::::::/____/---------------/:::/----/----\::/----/------------'
+show_orange '-----~~~~~~~~~~--------------------/:::/----/------\/____/-------------'
+show_orange '----------------------------------/:::/----/---------------------------'
+show_orange '---------------------------------/:::/----/----------------------------'
+show_orange '---------------------------------\::/----/-----------------------------'
+show_orange '----------------------------------\/____/------------------------------'
+show_orange '-----------------------------------------------------------------------'
 
 echo -e "\n \e[33mПодпишись на мой канал\e[0m Beloglazov invest, \n чтобы быть в курсе самых актуальных нод и активностей \n \e[33mhttps://t.me/beloglazovinvest \e[0m \n"
 
@@ -36,133 +74,133 @@ sleep 2
 while true; do
     echo "1. Подготовка к установке Nillion (Preparation)"
     echo "2. Установка Nillion (Install)"
-    echo "3. Получить данные Accuser (Get Accuser data)"
+    echo "3. Получить данные Verifier (Get Verifier data)"
     echo "4. Запустить или перезапустить ноду (Start or restart node)"
     echo "5. Удаление ноды (Delete node)"
     echo "6. Проверить логи (Check logs)"
     echo "7. Восстановить ноду (Node restore)"
-    echo "8. Выход (Exit)"
+    echo "8. Остановить ноду (Stop Node)"
+    echo "9. Выход (Exit)"
     echo ""
     read -p "Выберите опцию (Select option): " option
 
     case $option in
         1)
-            echo -e "\e[33mНачинаем подготовку (Starting preparation)...\e[0m"
+            show_orange "Начинаем подготовку (Starting preparation)..."
             sleep 1
             # Update packages
-            echo -e "\e[33mОбновляем пакеты (Updating packages)...\e[0m"
+            show_orange "Обновляем пакеты (Updating packages)..."
             if sudo apt update && sudo apt upgrade -y && apt install jq; then
                 sleep 1
-                echo -e "Обновление пакетов (Updating packages): \e[32mУспешно (Success)\e[0m"
+                show_green "Успешно (Success)"
                 echo ""
             else
-                echo -e "Обновление пакетов (Updating packages): \e[31mОшибка (Error)\e[0m"
+                sleep 1
+                show_red "Ошибка (Fail)"
                 echo ""
-                exit 1
             fi
 
             # Check Docker version
-            echo -e "\e[33mПроверяем версию Docker (Checking Docker version)...\e[0m"
+            show_orange "Проверяем версию Docker (Checking Docker version)..."
             if command -v docker &> /dev/null; then
                 DOCKER_VERSION=$(docker --version | grep -oP '\d+\.\d+\.\d+')
                 REQUIRED_VERSION="27.2.0"
 
                 if [ "$(printf '%s\n' "$REQUIRED_VERSION" "$DOCKER_VERSION" | sort -V | head -n1)" = "$REQUIRED_VERSION" ]; then
-                    echo -e "Проверка версии Docker (Docker version check): \e[32mУспешно (Success)\e[0m"
-                    echo -e "(\e[32mDocker version $DOCKER_VERSION is OK\e[0m)"
+                    show_green "Docker version $DOCKER_VERSION is OK"
                     echo ""
                 else
-                    echo -e "Проверка версии Docker (Docker version check): \e[33mТребуется обновить (Update Require)\e[0m"
+                    show_orange "Требуется обновить (Update Require)"
                     echo ""
                     sleep 1
 
                     # Install or update Docker
-                    echo -e "\e[33mОбновляем Docker (Updating Docker)...\e[0m"
+                    show_orange "Обновляем Docker (Updating Docker)..."
                     sleep 1
                     if sudo apt install apt-transport-https ca-certificates curl software-properties-common -y &&
                     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
                     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" &&
                     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y; then
                         sleep 1
-                        echo -e "Установка/Обновление Docker (Docker installation/update): \e[32mУспешно (Success)\e[0m"
+                        show_green "Успешно (Success)"
                         echo ""
                     else
-                        echo -e "Установка/Обновление Docker (Docker installation/update): \e[31mОшибка (Error)\e[0m"
+                        sleep 1
+                        show_red "Ошибка (Fail)"
                         echo ""
-                        exit 1
                     fi
                 fi
             else
                 # Docker installation
-                echo -e "\e[31mDocker не установлен (Docker not installed)\e[0m"
-                echo -e "\e[33mУстанавливаем Docker (Installing Docker)...\e[0m"
+                show_red "Docker не установлен (Docker not installed)"
+                show_orange "Устанавливаем Docker (Installing Docker)..."
                 sleep 1
                 if sudo apt install apt-transport-https ca-certificates curl software-properties-common -y &&
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
                 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" &&
                 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y; then
                     sleep 1
-                    echo -e "Установка Docker (Docker installation): \e[32mУспешно (Success)\e[0m"
+                    show_green "Успешно (Success)"
                     echo ""
                 else
-                    echo -e "Установка Docker (Docker installation): \e[31mОшибка (Error)\e[0m"
+                    sleep 1
+                    show_red "Ошибка (Fail)"
                     echo ""
-                    exit 1
                 fi
             fi
             echo -e "\e[33m--- ПОДГОТОВКА ЗАВЕРШЕНА. PREPARATION COMPLETED ---\e[0m"
             echo ""
             ;;
         2)
-            echo -e "\e[33mУстанавливаем Nillion (Install Nillion)...\e[0m"
+            show_orange "Устанавливаем Nillion (Install Nillion)..."
 
-            # Install Accuser Image
-            echo -e "\e[33mСкачиваем Accuser Image (Pulling Accuser Image)...\e[0m"
-            if docker pull nillion/retailtoken-accuser:v1.0.1; then
+            # Install Verifier Image
+            show_orange "Скачиваем Verifier Image (Pulling Verifier Image)..."
+            if docker pull nillion/verifier:v1.0.1; then
                 sleep 1
-                echo -e "Скачивание Accuser Image (Pulling Accuser Image): \e[32mУспешно (Success)\e[0m"
+                show_green "Успешно (Success)"
                 echo ""
             else
-                echo -e "Скачивание Accuser Image (Pulling Accuser Image): \e[31mОшибка (Error)\e[0m"
-                echo ""
-                exit 1
-            fi
-
-            # Create Accuser directory
-            echo -e "\e[33mСоздаем директорию для Accuser (Creating directory for Accuser)...\e[0m"
-            if mkdir -p nillion/accuser; then
                 sleep 1
-                echo -e "Создание директории (Directory creation): \e[32mУспешно (Success)\e[0m"
-                echo ""
-            else
-                echo -e "Директория (Directory): \e[32mНайдена (Found)\e[0m"
+                show_red "Ошибка (Fail)"
                 echo ""
             fi
 
-            # Starting the container for Accuser initialization and registration.
-            echo -e "\e[33mЗапускаем контейнер для Accuser (Starting Accuser container)...\e[0m"
-            if docker run --name accuser -v "$(pwd)/nillion/accuser:/var/tmp" nillion/retailtoken-accuser:v1.0.1 initialise; then
+            # Create Verifier directory
+            show_orange "Создаем директорию для Verifier (Creating directory for Verifier)..."
+            if mkdir -p $HOME/nillion/verifier; then
                 sleep 1
-                echo -e "Запуск контейнера Accuser (Starting Accuser container): \e[32mУспешно (Success)\e[0m"
+                show_green "Успешно (Success)"
                 echo ""
             else
-                echo -e "Запуск контейнера Accuser (Starting Accuser container): \e[31mОшибка (Error)\e[0m"
+                show_green "Найдена (Found)"
                 echo ""
-                exit 1
+            fi
+
+            # Starting the container for Verifier initialization and registration.
+            show_orange "Запускаем контейнер для Verifier (Starting Verifier container)..."
+            if docker run --name verifier -v $HOME/nillion/verifier:/var/tmp nillion/verifier:v1.0.1 initialise; then
+                sleep 1
+                show_green "Успешно (Success)"
+                echo ""
+            else
+                sleep 1
+                show_red "Ошибка (Fail)"
+                echo ""
             fi
             ;;
         3)
-            #check Accuser Verifier data
-            echo -e "\e[33mПолучаем данные Accuser (Getting Accuser data)...\e[0m"
+            #check Verifier Verifier data
+            show_orange "Получаем данные Verifier (Getting Verifier data)..."
             sleep 1
-            if sudo cat /root/nillion/accuser/credentials.json; then
+            if sudo cat $HOME/nillion/verifier/credentials.json; then
                 sleep 1
-                echo -e "Данные Accuser (Accuser data): \e[32mУспешно (Success)\e[0m"
+                show_green "Успешно (Success)"
                 echo ""
             else
-                echo -e "Данные Accuser (Accuser data): \e[31mОшибка (Error)\e[0m"
+                sleep 1
+                show_red "Ошибка (Fail)"
                 echo ""
-                exit 1
             fi
             echo -e "\e[33mПри первой регистрации перейдите на сайт \nhttps://verifier.nillion.com/verifier \nи введите данные в 5 пункте\e[0m"
             echo ""
@@ -170,106 +208,118 @@ while true; do
             echo ""
             ;;
         4)
-            # Stop container
-            echo -e "\e[33mОстанавливаем контейнер (Stopping container)...\e[0m"
-            if docker stop nillion; then
-                sleep 1
-                echo -e "Контейнер остановлен (Container stopped): \e[32mУспешно (Success)\e[0m"
-                echo ""
-            else
-                echo -e "\e[34mКонтейнер не запущен (Container isn't running)\e[0m"
-                echo ""
-            fi
+            # start or restart node
+            stop_node
 
-            # Delete container
-            echo -e "\e[33mУдаляем контейнер (Deleting container)...\e[0m"
-            if docker rm nillion; then
-                sleep 1
-                echo -e "Контейнер nillion удален (Container deleted): \e[32mУспешно (Success)\e[0m"
-                echo ""
-            else
-                echo -e "\e[34mКонтейнер nillion не найден (Container doesn't exist)\e[0m"
-                echo ""
-            fi
+            #RPC choice
+            echo -e "\e[33mCПИСОК RPC (RPC LIST)\e[0m"
+            echo ""
+            echo "1. Lavander Five (standart)"
+            echo "2. PolkaChu"
+            echo "3. Kjnodes"
+            echo "4. Nodex"
+            echo "5. Custom RPC"
+            echo ""
+            read -p "Выберете RPC (Choose RPC): " RPC
+
+            case $RPC in
+                1)
+                    # Standart RPC (Lavander Five)
+                    RPC_URL="https://testnet-nillion-rpc.lavenderfive.com"
+                    ;;
+                2)
+                    #Polkachu RPC
+                    RPC_URL="https://nillion-testnet-rpc.polkachu.com"
+                    ;;
+                3)
+                    # Kjnodes RPC
+                    RPC_URL="https://nillion-testnet.rpc.kjnodes.com"
+                    ;;
+                4)
+                    # Nodex RPC
+                    RPC_URL="https://nillion-testnet.rpc.nodex.one"
+                    ;;
+                5)
+                    # Custom RPC
+                    read -p "Введите Custom RPC URL (Enter Custom RPC URL): " RPC_URL
+                    ;;
+                *)
+                    # Wrong option
+                    echo ""
+                    echo -e "\e[31mНеверная опция\e[0m. Пожалуйста, выберите из тех, что есть."
+                    echo ""
+                    echo -e "\e[31mInvalid option.\e[0m Please choose from the available options."
+                    echo ""
+                    ;;
+            esac
+            echo -e "\e[34mRPC =\e[0m $RPC_URL"
+            echo ""
 
             #Starting Node
-            echo -e "\e[33mЗапускаем ноду (Starting node)...\e[0m"
-            sleep 1
-            sudo docker run --name nillion -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com/" --block-start "$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')"
+            show_orange "Запускаем ноду (Starting node)..."
+            sleep 2
+            sudo docker run --name nillion -d -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 verify --rpc-endpoint $RPC_URL
+            echo ""
+            show_green "----- НОДА ЗАПУЩЕНА. NODE STARTED -----"
+            echo ""
             ;;
         5)
             #Deleting Node
-            echo -e "\e[33mУдаляем ноду (Deleting node)...\e[0m"
-            if docker stop nillion; then
+            stop_node
+
+            if docker rm verifier; then
                 sleep 1
-                echo -e "Нода остановлена (Node stopped): \e[32mУспешно (Success)\e[0m"
+                show_green "Контейнер Verifier удален (Verifier container deleted)"
                 echo ""
             else
-                echo ""
-                echo -e "\e[34mНода не запущена (Node is not running)\e[0m"
+                sleep 1
+                show_blue "Контейнер Verifier не найден (Didn't find Verifier)"
                 echo ""
             fi
 
-            if docker rm nillion; then
+            if rm -rvf $HOME/nillion; then
                 sleep 1
-                echo -e "Контейнер Nillion удален (Nillion container deleted): \e[32mУспешно (Success)\e[0m"
+                show_green "Директория nillion удалена (Node directory Deleted)"
                 echo ""
             else
-                echo -e "\e[34mКонтейнер Nillion не найден (Didn't find Nillion)\e[0m"
-                echo ""
-            fi
-
-            if docker rm accuser; then
                 sleep 1
-                echo -e "Контейнер Accuser удален (Accuser container deleted): \e[32mУспешно (Success)\e[0m"
-                echo ""
-            else
-                echo -e "\e[34mКонтейнер Accuser не найден (Didn't find Accuser)\e[0m"
+                show_blue "Директория nillion не найдена (Didn't find Nillion directory)"
                 echo ""
             fi
-
-            if rm -rvf ./nillion; then
-                sleep 1
-                echo -e "Директория nillion удалена (Node directory Deleted): \e[32mУспешно (Success)\e[0m"
-                echo ""
-            else
-                echo -e "Директория nillion удалена (Node directory Deleted): \e[31mОшибка (Error)\e[0m"
-                echo ""
-            fi
-            echo -e "\e[33m----- НОДА УДАЛЕНА. NODE DELETED -----\e[0m"
+            show_green "----- НОДА УДАЛЕНА. NODE DELETED -----"
             echo ""
             ;;
         6)
             #check logs
-            echo -e "\e[33mПроверяем логи (Cheking logs)...\e[0m"
+            show_orange "Проверяем логи (Cheking logs)..."
             echo ""
             sleep 1
-            sudo docker logs --tail=1000 nillion | grep -A 2 Registered | tail -3
+            sudo docker logs --tail=100 nillion
             echo ""
             ;;
         7)
             #Restore the node
-            # Create Accuser directory
-            echo -e "\e[33mСоздаем директорию для Accuser (Creating directory for Accuser)...\e[0m"
-            if mkdir -p nillion/accuser; then
+            # Create Verifier directory
+            show_orange "Создаем директорию для Verifier (Creating directory for Verifier)..."
+            if mkdir -p nillion/verifier; then
                 sleep 1
-                echo -e "Создание директории (Directory creation): \e[32mУспешно (Success)\e[0m"
+                show_green "Успешно (Success)"
                 echo ""
             else
-                echo -e "Директория (Directory): \e[34mНайдена (Found)\e[0m"
+                show_blue "Найдена (Found)"
                 echo ""
             fi
 
-            FILE_PATH="nillion/accuser/credentials.json"
+            FILE_PATH="nillion/verifier/credentials.json"
 
             # Check if file exist
             if [ -f "$FILE_PATH" ]; then
-                echo -e "\e[33mСredentials.json найден (Found).\e[0m"
+                show_green "Сredentials.json найден (Found)."
             else
                 sleep 1
-                touch ./nillion/accuser/credentials.json
+                touch ./nillion/verifier/credentials.json
                 cd $HOME
-                echo -e "\e[33mСredentials.json создан (Created).\e[0m"
+                show_green "Сredentials.json создан (Created)."
             fi
 
             # Get data from user
@@ -289,12 +339,16 @@ while true; do
             \"address\": \"$address\"
             }" > $FILE_PATH
 
-            echo -e "сredentials.json обновлен (updated): \e[32mУспешно (Success)\e[0m  ."
+            show_green "сredentials.json обновлен (updated)"
             echo ""
             ;;
         8)
+            # stop node
+            stop_node
+            ;;
+        9)
             # Stop script and exit
-            echo -e "\e[31mСкрипт остановлен (Script stopped)\e[0m"
+            show_red "Скрипт остановлен (Script stopped)"
             echo ""
             exit 0
             ;;
